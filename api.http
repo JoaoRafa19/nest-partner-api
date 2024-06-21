@@ -1,0 +1,69 @@
+###
+GET http://localhost:3000/events
+
+
+###
+# @name createEvent
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+	"name": "Show do Kiss",
+	"date": "2024-06-18T01:55:29.690Z",
+	"description": "New Event",
+	"price": 80
+}
+
+###
+@eventId =  {{createEvent.response.body.id}}
+
+###
+GET http://localhost:3000/events/{{eventId}}
+
+###
+PATCH http://localhost:3000/events/{{eventId}}
+Content-Type: application/json
+
+{
+	"name": "New Event",
+	"date": "{{$datetime iso8601}}",
+	"description": "New Event",
+	"price": 100
+}
+
+
+###
+DELETE http://localhost:3000/events/{{eventId}}
+
+
+
+###
+GET http://localhost:3000/events/{{eventId}}/spots
+###
+# @name createSpot
+POST http://localhost:3000/events/{{eventId}}/spots
+Content-Type: application/json
+
+{
+	"name": "A2"
+}
+
+
+###
+@spotID =  {{createSpot.response.body.id}}
+@spotName =  {{createSpot.response.body.name}}
+
+###
+DELETE http://localhost:3000/events/{{eventId}}/spots/{{spotID}}
+
+###
+POST http://localhost:3000/events/{{eventId}}/reserve
+Content-Type: application/json
+
+{
+	"spots": ["{{spotName}}"],
+	"ticket_kind": "full",
+	"email": "test@test.com"
+}
+
+

@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  date        DateTime
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Spot        Spot[]
+}
+
+model Spot {
+  id                String              @id @default(uuid())
+  name              String
+  eventId           String
+  status            SpotStatus
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  event             Event               @relation(fields: [eventId], references: [id])
+  Ticket            Ticket?
+  ReservationHisory ReservationHisory[]
+}
+
+enum SpotStatus {
+  available
+  reserverd
+}
+
+model Ticket {
+  id         String     @id @default(uuid())
+  email      String
+  ticketKind TicketKind
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now())
+  spotId     String
+  Spot       Spot       @relation(fields: [spotId], references: [id])
+
+  @@unique([spotId])
+}
+
+enum TicketKind {
+  full
+  half
+}
+
+model ReservationHisory {
+  id         String       @id @default(uuid())
+  email      String
+  ticketKind TicketKind
+  status     TicketStatus
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now())
+  spotId     String
+  Spot       Spot         @relation(fields: [spotId], references: [id])
+}
+
+enum TicketStatus {
+  reserved
+  canceled
+}
