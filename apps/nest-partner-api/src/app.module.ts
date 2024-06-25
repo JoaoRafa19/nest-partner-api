@@ -6,8 +6,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SpotsModule } from './spots/spots.module';
 
 @Module({
-  imports: [EventsModule, PrismaModule, SpotsModule],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [EventsModule, PrismaModule, SpotsModule],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule {}

@@ -8,10 +8,10 @@ import {
 	Delete,
 	HttpCode,
 } from '@nestjs/common';
-import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { ReserveSpotDto } from './dto/reserve-spot.dto';
+import { EventsService } from './events.service';
 
 @Controller('events')
 export class EventsController {
