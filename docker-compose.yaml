@@ -14,5 +14,3 @@ services:
       - 3306:3306
     # volumes:
     #   - ./.docker/dbdata:/var/lib/mysql
-
-  

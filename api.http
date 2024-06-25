@@ -8,7 +8,7 @@ POST http://localhost:3000/events
 Content-Type: application/json
 
 {
-	"name": "Show do Kiss",
+	"name": "Show do Metalica",
 	"date": "2024-06-18T01:55:29.690Z",
 	"description": "New Event",
 	"price": 80
@@ -25,9 +25,8 @@ PATCH http://localhost:3000/events/{{eventId}}
 Content-Type: application/json
 
 {
-	"name": "New Event",
-	"date": "{{$datetime iso8601}}",
-	"description": "New Event",
+	"name": "Show do Metalica",
+	"description": "Novo Show do metalica",
 	"price": 100
 }
 
@@ -45,12 +44,14 @@ POST http://localhost:3000/events/{{eventId}}/spots
 Content-Type: application/json
 
 {
-	"name": "A2"
+	"name": "A5"
 }
 
 
 ###
-@spotID =  {{createSpot.response.body.id}}
+@spotID =  {{ createSpot.response.body.id }}
+
+###
 @spotName =  {{createSpot.response.body.name}}
 
 ###
