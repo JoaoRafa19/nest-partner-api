@@ -66,40 +66,46 @@ export class EventsService {
 					`Spots ${notFoundSpotsName.join(', ')} not found`,
 				);
 			}
-			const tickets = this.prismaService.$transaction(async (prisma) => {
-				await prisma.reservationHisory.createMany({
-					data: spots.map((spot) => ({
-						spotId: spot.id,
-						ticketKind: dto.ticket_kind,
-						email: dto.email,
-						status: TicketStatus.reserved,
-					})),
-				});
+			const tickets = await this.prismaService.$transaction(
+				async (prisma) => {
+					await prisma.reservationHisory.createMany({
+						data: spots.map((spot) => ({
+							spotId: spot.id,
+							ticketKind: dto.ticket_kind,
+							email: dto.email,
+							status: TicketStatus.reserved,
+						})),
+					});
 
-				prisma.spot.updateMany({
-					where: {
-						id: {
-							in: spots.map((spot) => spot.id),
-						},
-					},
-					data: {
-						status: SpotStatus.reserverd,
-					},
-				});
-
-				const tickets = await Promise.all(
-					spots.map((spot) =>
-						prisma.ticket.create({
-							data: {
-								email: dto.email,
-								ticketKind: dto.ticket_kind,
-								spotId: spot.id,
+					prisma.spot.updateMany({
+						where: {
+							id: {
+								in: spots.map((spot) => spot.id),
 							},
-						}),
-					),
-				);
-				return tickets;
-			});
+						},
+						data: {
+							status: SpotStatus.reserverd,
+						},
+					});
+
+					const tickets = await Promise.all(
+						spots.map((spot) =>
+							prisma.ticket.create({
+								data: {
+									email: dto.email,
+									ticketKind: dto.ticket_kind,
+									spotId: spot.id,
+								},
+							}),
+						),
+					);
+					return tickets;
+				},
+				{
+					isolationLevel:
+						Prisma.TransactionIsolationLevel.ReadCommitted,
+				},
+			);
 
 			return tickets;
 		} catch (e) {
