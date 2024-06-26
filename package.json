@@ -11,13 +11,15 @@
     "start": "nest start",
     "start:dev": "nest start --tsc --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/nest-partner-api/main",
+    "start:prod": "node dist/apps/partner1/main",
+    "start:partner1:prod": "node dist/apps/partner1/main",
+    "start:partner2:prod": "node dist/apps/partner2/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/nest-partner-api/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/partner1/test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
