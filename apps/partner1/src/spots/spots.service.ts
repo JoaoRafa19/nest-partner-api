@@ -37,14 +37,14 @@ export class SpotsService {
     });
   }
 
-  update(eventId: string, id: string, updateSpotDto: UpdateSpotRequest) {
+  update(eventId: string, id: string, updateSpotRequest: UpdateSpotRequest) {
     return this.prismaService.spot.update({
       where: {
         eventId: eventId,
         id: id,
       },
       data: {
-        ...updateSpotDto,
+        ...updateSpotRequest,
         updatedAt: new Date(),
       },
     });
